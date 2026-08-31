@@ -1,0 +1,70 @@
+{%- comment -%}
+  MAISON DÉLICES - FULL SEARCH RESULTS PAGE
+{%- endcomment -%}
+
+<section id="MainSearch-{{ section.id }}" class="section-spacing bg-cream">
+  <div class="container">
+    
+    <div class="text-center max-w-xl mx-auto mb-10">
+      <span class="text-xs uppercase tracking-widest font-bold text-accent block mb-2 font-body">Bakery Search</span>
+      <h1 class="font-serif text-3xl sm:text-4xl md:text-5xl font-bold text-chocolate tracking-tight mb-4">
+        {%- if search.performed -%}
+          Search Results for "{{ search.terms | escape }}"
+        {%- else -%}
+          Search Our Fresh Bakes
+        {%- endif -%}
+      </h1>
+
+      <form action="{{ routes.search_url }}" method="get" role="search" class="relative max-w-md mx-auto">
+        <input
+          type="search"
+          name="q"
+          value="{{ search.terms | escape }}"
+          placeholder="Search breads, cakes, viennoiseries..."
+          class="w-full bg-beige border border-warm-border rounded-full py-3 pl-12 pr-28 text-sm text-chocolate focus:outline-none focus:border-accent"
+        >
+        <div class="absolute left-4 top-3.5 text-chocolate/50">
+          {%- render 'icon', name: 'search', class: 'w-4 h-4' -%}
+        </div>
+        <button type="submit" class="absolute right-1.5 top-1.5 btn btn-primary btn-sm rounded-full">
+          Search
+        </button>
+      </form>
+    </div>
+
+    {%- if search.performed -%}
+      {%- paginate search.results by 12 -%}
+        {%- if search.results_count == 0 -%}
+          <div class="py-16 text-center">
+            <p class="font-serif text-2xl text-chocolate mb-2">No baked goods found for "{{ search.terms }}".</p>
+            <p class="text-sm text-chocolate/70 mb-6">Check your spelling or browse our popular categories below.</p>
+            <a href="{{ routes.root_url }}collections/all" class="btn btn-primary btn-sm">Explore All Bakery Treats</a>
+          </div>
+        {%- else -%}
+          <p class="text-xs font-semibold text-chocolate/60 mb-6 text-center">Found {{ search.results_count }} items</p>
+          <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
+            {%- for item in search.results -%}
+              {%- if item.object_type == 'product' -%}
+                <div>
+                  {%- render 'product-card', product: item, show_rating: true, enable_quick_add: true -%}
+                </div>
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+
+          {%- if paginate.pages > 1 -%}
+            {%- render 'pagination', paginate: paginate -%}
+          {%- endif -%}
+        {%- endif -%}
+      {%- endpaginate -%}
+    {%- endif -%}
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Main Search Results",
+  "settings": []
+}
+{% endschema %}

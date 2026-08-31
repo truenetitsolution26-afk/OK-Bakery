@@ -1,0 +1,40 @@
+{
+  "current": {
+    "color_chocolate": "#2C1A11",
+    "color_cream": "#FAF7F2",
+    "color_beige": "#F3EDE2",
+    "color_caramel": "#C68B59",
+    "color_berry": "#A44230",
+    "free_shipping_threshold": 5000,
+    "enable_cart_notes": true,
+    "store_phone": "+1 (718) 555-0192",
+    "store_email": "bonjour@maison-delices.com",
+    "store_address": "142 Bedford Avenue, Brooklyn, NY 11249",
+    "social_instagram": "https://instagram.com/maison_delices",
+    "social_facebook": "https://facebook.com/maison_delices",
+    "social_pinterest": "https://pinterest.com/maison_delices",
+    "sections": {
+      "announcement-bar": {
+        "type": "announcement-bar",
+        "settings": {
+          "text": "🥐 Fresh morning bakes out of the oven at 7:00 AM • Complimentary local delivery on orders over $50",
+          "link": "/collections/all"
+        }
+      },
+      "header": {
+        "type": "header",
+        "settings": {
+          "enable_sticky": true
+        }
+      },
+      "footer": {
+        "type": "footer",
+        "settings": {
+          "newsletter_title": "Receive 10% Off Your First Fresh Batch",
+          "newsletter_subtext": "Subscribe to receive weekend secret bake menus, seasonal cake releases, and VIP tasting invites.",
+          "show_social": true
+        }
+      }
+    }
+  }
+}

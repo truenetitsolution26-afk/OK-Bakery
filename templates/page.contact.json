@@ -1,0 +1,15 @@
+{
+  "sections": {
+    "main": {
+      "type": "contact-form",
+      "settings": {
+        "subheading": "We Are At Your Service",
+        "heading": "Get In Touch & Cake Inquiries",
+        "description": "Have a question about custom cake design, wedding tasting boxes, wholesale orders, or dietary allergens? Our team is delighted to assist you."
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

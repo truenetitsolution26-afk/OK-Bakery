@@ -1,0 +1,231 @@
+{%- comment -%}
+  MAISON DÉLICES - STICKY RESPONSIVE HEADER WITH ACCESSIBLE NAVIGATION
+{%- endcomment -%}
+
+<header
+  id="SiteHeader"
+  class="site-header relative z-40 bg-cream/95 backdrop-blur-md border-b border-warm-border/80 transition-all duration-300 {% if section.settings.enable_sticky %}sticky top-0{% endif %}"
+  data-sticky-header="{{ section.settings.enable_sticky }}"
+>
+  <div class="container flex items-center justify-between py-4 md:py-5">
+    
+    <!-- Mobile Hamburger Trigger -->
+    <div class="flex items-center lg:hidden">
+      <button
+        type="button"
+        class="p-2 -ml-2 text-chocolate hover:text-accent transition-colors"
+        data-mobile-menu-toggle
+        aria-label="{{ 'accessibility.open_menu' | t | default: 'Open navigation menu' }}"
+        aria-expanded="false"
+        aria-controls="MobileNavDrawer"
+      >
+        {%- render 'icon', name: 'menu', class: 'w-6 h-6' -%}
+      </button>
+      
+      <button
+        type="button"
+        class="p-2 text-chocolate hover:text-accent transition-colors ml-1"
+        data-search-trigger
+        aria-label="{{ 'general.search.search' | t }}"
+      >
+        {%- render 'icon', name: 'search', class: 'w-5 h-5' -%}
+      </button>
+    </div>
+
+    <!-- Store Logo / Brand Name -->
+    <div class="header__logo text-center lg:text-left">
+      <a href="{{ routes.root_url }}" class="inline-block group focus:outline-none">
+        {%- if section.settings.logo != blank -%}
+          {{ section.settings.logo | image_url: width: section.settings.logo_width | image_tag:
+            class: 'header__logo-img object-contain mx-auto lg:mx-0',
+            alt: shop.name,
+            loading: 'eager'
+          }}
+        {%- else -%}
+          <span class="font-serif text-2xl md:text-3xl lg:text-3xl font-bold tracking-tight text-chocolate group-hover:text-accent transition-colors block">
+            {{ shop.name }}
+          </span>
+          <span class="text-[9px] uppercase tracking-[0.25em] text-accent font-semibold block -mt-1 font-body">
+            Artisan Boulangerie & Pâtisserie
+          </span>
+        {%- endif -%}
+      </a>
+    </div>
+
+    <!-- Desktop Navigation Menu -->
+    <nav class="hidden lg:flex items-center gap-7 xl:gap-9" role="navigation" aria-label="Primary Navigation">
+      {%- for link in linklists[section.settings.menu].links -%}
+        {%- if link.links != blank -%}
+          <!-- Dropdown Menu -->
+          <div class="relative group">
+            <a
+              href="{{ link.url }}"
+              class="flex items-center gap-1.5 text-sm font-semibold text-chocolate/90 hover:text-accent py-2 transition-colors focus:outline-none"
+              aria-expanded="false"
+            >
+              <span>{{ link.title }}</span>
+              {%- render 'icon', name: 'chevron-down', class: 'w-3.5 h-3.5 group-hover:rotate-180 transition-transform duration-200 opacity-70' -%}
+            </a>
+            
+            <div class="absolute top-full left-0 w-56 pt-2 opacity-0 translate-y-2 pointer-events-none group-hover:opacity-100 group-hover:translate-y-0 group-hover:pointer-events-auto transition-all duration-200">
+              <div class="bg-cream border border-warm-border rounded-lg shadow-xl py-2 px-1">
+                {%- for childlink in link.links -%}
+                  <a
+                    href="{{ childlink.url }}"
+                    class="block px-4 py-2 text-xs font-semibold text-chocolate hover:bg-beige hover:text-accent rounded-md transition-colors"
+                  >
+                    {{ childlink.title }}
+                  </a>
+                {%- endfor -%}
+              </div>
+            </div>
+          </div>
+        {%- else -%}
+          <a
+            href="{{ link.url }}"
+            class="text-sm font-semibold text-chocolate/90 hover:text-accent py-2 transition-colors relative after:content-[''] after:absolute after:bottom-1 after:left-0 after:w-0 after:h-0.5 after:bg-accent hover:after:w-full after:transition-all after:duration-200 {% if link.active %}text-accent after:w-full{% endif %}"
+          >
+            {{ link.title }}
+          </a>
+        {%- endif -%}
+      {%- endfor -%}
+    </nav>
+
+    <!-- Header Actions (Search, Account, Cart Counter) -->
+    <div class="flex items-center gap-1 md:gap-3">
+      
+      <!-- Desktop Search Button -->
+      <button
+        type="button"
+        class="hidden lg:flex items-center gap-2 text-xs font-semibold text-chocolate/80 hover:text-accent px-3 py-2 rounded-full hover:bg-beige transition-colors"
+        data-search-trigger
+        aria-label="{{ 'general.search.search' | t }}"
+      >
+        {%- render 'icon', name: 'search', class: 'w-4 h-4' -%}
+        <span class="hidden xl:inline text-chocolate/60">Search treats...</span>
+      </button>
+
+      <!-- Customer Account Link -->
+      {%- if shop.customer_accounts_enabled -%}
+        <a
+          href="{%- if customer -%}{{ routes.account_url }}{%- else -%}{{ routes.account_login_url }}{%- endif -%}"
+          class="p-2 text-chocolate/80 hover:text-accent rounded-full hover:bg-beige transition-colors"
+          aria-label="{{ 'customer.account.title' | t | default: 'My Account' }}"
+        >
+          {%- render 'icon', name: 'account', class: 'w-5 h-5' -%}
+        </a>
+      {%- endif -%}
+
+      <!-- Cart Drawer Trigger Button -->
+      <button
+        type="button"
+        class="relative flex items-center gap-2 p-2 text-chocolate hover:text-accent rounded-full hover:bg-beige transition-colors focus:outline-none"
+        data-cart-drawer-trigger
+        aria-label="{{ 'cart.general.title' | t | default: 'Shopping Bag' }}"
+        aria-haspopup="dialog"
+      >
+        {%- render 'icon', name: 'cart', class: 'w-5 h-5' -%}
+        <span
+          class="cart-count-badge absolute -top-0.5 -right-0.5 bg-accent text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center {% if cart.item_count == 0 %}hidden{% endif %}"
+          data-cart-count
+        >
+          {{ cart.item_count }}
+        </span>
+        <span class="hidden md:inline font-semibold text-xs text-chocolate">Bag</span>
+      </button>
+
+    </div>
+
+  </div>
+</header>
+
+<!-- Mobile Navigation Drawer Overlay & Content -->
+<div id="MobileNavOverlay" class="fixed inset-0 bg-chocolate/50 backdrop-blur-sm z-50 opacity-0 pointer-events-none transition-opacity duration-300 lg:hidden"></div>
+
+<div
+  id="MobileNavDrawer"
+  class="fixed top-0 left-0 bottom-0 w-5/6 max-w-sm bg-cream z-50 transform -translate-x-full transition-transform duration-300 shadow-2xl flex flex-col lg:hidden border-r border-warm-border"
+  role="dialog"
+  aria-modal="true"
+  aria-label="Mobile Navigation"
+>
+  <div class="p-5 flex items-center justify-between border-b border-warm-border">
+    <span class="font-serif text-xl font-bold text-chocolate">{{ shop.name }}</span>
+    <button type="button" class="p-2 text-chocolate hover:text-accent rounded-full" data-close-mobile-menu aria-label="Close menu">
+      {%- render 'icon', name: 'close', class: 'w-5 h-5' -%}
+    </button>
+  </div>
+
+  <div class="p-6 flex-grow overflow-y-auto space-y-4">
+    <div class="space-y-1">
+      {%- for link in linklists[section.settings.menu].links -%}
+        {%- if link.links != blank -%}
+          <div class="py-2">
+            <span class="block text-xs uppercase tracking-wider font-bold text-chocolate/50 mb-2">{{ link.title }}</span>
+            <div class="space-y-2 pl-3 border-l-2 border-accent/40">
+              {%- for childlink in link.links -%}
+                <a href="{{ childlink.url }}" class="block text-sm font-semibold text-chocolate hover:text-accent py-1">
+                  {{ childlink.title }}
+                </a>
+              {%- endfor -%}
+            </div>
+          </div>
+        {%- else -%}
+          <a href="{{ link.url }}" class="block text-base font-semibold text-chocolate hover:text-accent py-2 border-b border-warm-border/50">
+            {{ link.title }}
+          </a>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+
+    <div class="pt-6 border-t border-warm-border space-y-3 text-xs text-chocolate/70">
+      {%- if settings.store_phone != blank -%}
+        <div class="flex items-center gap-2">
+          <span>📞</span>
+          <a href="tel:{{ settings.store_phone }}" class="hover:text-accent">{{ settings.store_phone }}</a>
+        </div>
+      {%- endif -%}
+      {%- if settings.store_address != blank -%}
+        <div class="flex items-start gap-2">
+          <span>📍</span>
+          <span>{{ settings.store_address }}</span>
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Header",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Custom Brand Logo"
+    },
+    {
+      "type": "range",
+      "id": "logo_width",
+      "min": 60,
+      "max": 240,
+      "step": 5,
+      "unit": "px",
+      "label": "Logo Max Width",
+      "default": 140
+    },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Main Navigation Menu",
+      "default": "main-menu"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_sticky",
+      "label": "Enable Sticky Header",
+      "default": true
+    }
+  ]
+}
+{% endschema %}

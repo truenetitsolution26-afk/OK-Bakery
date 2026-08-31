@@ -1,0 +1,26 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-collection",
+      "settings": {
+        "products_per_page": 12,
+        "columns_desktop": 3,
+        "enable_filtering": true,
+        "enable_sorting": true
+      }
+    },
+    "promo": {
+      "type": "promo-banner",
+      "settings": {
+        "heading": "Weekly Secret Bake Box",
+        "text": "Every Saturday morning, our Head Baker crafts a limited 50-box batch of experimental pastries and seasonal fruit brioches.",
+        "button_text": "Join Bakery Club",
+        "button_link": "#SiteFooter"
+      }
+    }
+  },
+  "order": [
+    "main",
+    "promo"
+  ]
+}

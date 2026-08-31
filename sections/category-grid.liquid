@@ -1,0 +1,141 @@
+{%- comment -%}
+  MAISON DÉLICES - SHOP BY CATEGORY GRID
+{%- endcomment -%}
+
+<section id="CategoryGrid-{{ section.id }}" class="section-spacing bg-beige/40">
+  <div class="container">
+    
+    <!-- Section Header -->
+    <div class="text-center max-w-xl mx-auto mb-12">
+      {%- if section.settings.subheading != blank -%}
+        <span class="text-xs uppercase tracking-widest font-bold text-accent block mb-2 font-body">
+          {{ section.settings.subheading }}
+        </span>
+      {%- endif -%}
+
+      <h2 class="font-serif text-3xl sm:text-4xl md:text-5xl font-bold text-chocolate tracking-tight mb-4">
+        {{ section.settings.heading }}
+      </h2>
+
+      {%- if section.settings.description != blank -%}
+        <p class="text-sm md:text-base text-chocolate/75 leading-relaxed">
+          {{ section.settings.description }}
+        </p>
+      {%- endif -%}
+    </div>
+
+    <!-- Category Grid -->
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 md:gap-6">
+      {%- for block in section.blocks -%}
+        <div class="category-card group relative" {{ block.shopify_attributes }}>
+          <a href="{{ block.settings.collection.url | default: '#' }}" class="block overflow-hidden rounded-xl bg-cream border border-warm-border/70 shadow-sm hover:shadow-md transition-all duration-300 transform hover:-translate-y-1">
+            
+            <!-- Category Image -->
+            <div class="aspect-square w-full overflow-hidden bg-beige relative">
+              {%- if block.settings.image != blank -%}
+                {{ block.settings.image | image_url: width: 400 | image_tag:
+                  class: 'w-full h-full object-cover group-hover:scale-108 transition-transform duration-500 ease-out',
+                  alt: block.settings.title | default: block.settings.collection.title,
+                  loading: 'lazy'
+                }}
+              {%- elsif block.settings.collection.image != blank -%}
+                {{ block.settings.collection.image | image_url: width: 400 | image_tag:
+                  class: 'w-full h-full object-cover group-hover:scale-108 transition-transform duration-500 ease-out',
+                  alt: block.settings.collection.title,
+                  loading: 'lazy'
+                }}
+              {%- else -%}
+                <img
+                  src="https://picsum.photos/seed/bakery_cat_{{ forloop.index }}/400/400"
+                  alt="{{ block.settings.title }}"
+                  class="w-full h-full object-cover group-hover:scale-108 transition-transform duration-500"
+                  width="400"
+                  height="400"
+                  loading="lazy"
+                >
+              {%- endif -%}
+              
+              <div class="absolute inset-0 bg-chocolate/10 group-hover:bg-transparent transition-colors"></div>
+            </div>
+
+            <!-- Title & Item Count -->
+            <div class="p-3.5 text-center">
+              <h3 class="font-serif text-base md:text-lg font-bold text-chocolate group-hover:text-accent transition-colors leading-tight">
+                {{ block.settings.title | default: block.settings.collection.title | default: 'Category' }}
+              </h3>
+              {%- if block.settings.collection.products_count != blank -%}
+                <span class="text-[11px] text-chocolate/50 font-medium block mt-0.5">
+                  {{ block.settings.collection.products_count }} Treats
+                </span>
+              {%- endif -%}
+            </div>
+
+          </a>
+        </div>
+      {%- endfor -%}
+    </div>
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Shop by Category",
+  "settings": [
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Section Eyebrow",
+      "default": "Oven-Fresh Selection"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Section Heading",
+      "default": "Shop by Category"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description",
+      "default": "Explore our hand-laminated croissants, sourdough loaves, signature gateaux, and sweet bites."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "category",
+      "name": "Category Item",
+      "settings": [
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Select Collection"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Custom Category Image"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Category Title Override"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Shop by Category Grid",
+      "blocks": [
+        { "type": "category", "settings": { "title": "Celebration Cakes" } },
+        { "type": "category", "settings": { "title": "French Pastries" } },
+        { "type": "category", "settings": { "title": "Artisan Breads" } },
+        { "type": "category", "settings": { "title": "Butter Cookies" } },
+        { "type": "category", "settings": { "title": "Chocolates" } },
+        { "type": "category", "settings": { "title": "Custom Orders" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,33 @@
+{%- comment -%}
+  MAISON DÉLICES - PRICE SNIPPET
+  Accepts:
+  - product: {Object} Product Liquid object
+  - use_variant: {Boolean}
+  - price_class: {String}
+{%- endcomment -%}
+
+{%- assign target = product.selected_or_first_available_variant | default: product -%}
+{%- assign compare_at_price = target.compare_at_price -%}
+{%- assign price = target.price | default: 1999 -%}
+{%- assign available = target.available | default: false -%}
+{%- assign money_price = price | money -%}
+
+<div class="price-container {{ price_class }}">
+  {%- if compare_at_price > price -%}
+    <span class="price-sale font-bold text-sale">{{ money_price }}</span>
+    <s class="price-compare">{{ compare_at_price | money }}</s>
+  {%- else -%}
+    <span class="price-regular font-bold text-chocolate">{{ money_price }}</span>
+  {%- endif -%}
+
+  {%- if target.unit_price_measurement -%}
+    <div class="text-[11px] text-chocolate/60 font-normal">
+      <span>{{ target.unit_price | money }}</span>
+      <span aria-hidden="true">/</span>
+      {%- if target.unit_price_measurement.reference_value != 1 -%}
+        {{ target.unit_price_measurement.reference_value }}
+      {%- endif -%}
+      {{ target.unit_price_measurement.reference_unit }}
+    </div>
+  {%- endif -%}
+</div>

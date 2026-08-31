@@ -1,0 +1,135 @@
+{%- comment -%}
+  MAISON DÉLICES - WHY CHOOSE US / VALUE PROPOSITIONS
+{%- endcomment -%}
+
+<section id="WhyChooseUs-{{ section.id }}" class="section-spacing bg-cream">
+  <div class="container">
+    
+    <!-- Section Heading -->
+    <div class="text-center max-w-xl mx-auto mb-14">
+      {%- if section.settings.subheading != blank -%}
+        <span class="text-xs uppercase tracking-widest font-bold text-accent block mb-2 font-body">
+          {{ section.settings.subheading }}
+        </span>
+      {%- endif -%}
+
+      <h2 class="font-serif text-3xl sm:text-4xl md:text-5xl font-bold text-chocolate tracking-tight mb-4">
+        {{ section.settings.heading }}
+      </h2>
+
+      {%- if section.settings.description != blank -%}
+        <p class="text-sm md:text-base text-chocolate/75 leading-relaxed">
+          {{ section.settings.description }}
+        </p>
+      {%- endif -%}
+    </div>
+
+    <!-- Feature Pillars Grid -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
+      {%- for block in section.blocks -%}
+        <div class="p-6 sm:p-7 rounded-xl bg-beige/40 border border-warm-border/80 hover:bg-beige hover:shadow-md transition-all duration-300 flex flex-col items-center text-center group" {{ block.shopify_attributes }}>
+          
+          <div class="w-14 h-14 rounded-2xl bg-cream border border-warm-border flex items-center justify-center text-accent mb-5 group-hover:scale-110 group-hover:bg-accent group-hover:text-white transition-all duration-300 shadow-sm">
+            {%- case block.settings.icon -%}
+              {%- when 'wheat' -%}
+                {%- render 'icon', name: 'wheat', class: 'w-7 h-7' -%}
+              {%- when 'sparkles' -%}
+                {%- render 'icon', name: 'sparkles', class: 'w-7 h-7' -%}
+              {%- when 'shield-check' -%}
+                {%- render 'icon', name: 'shield-check', class: 'w-7 h-7' -%}
+              {%- when 'truck' -%}
+                {%- render 'icon', name: 'truck', class: 'w-7 h-7' -%}
+              {%- when 'heart' -%}
+                {%- render 'icon', name: 'heart', class: 'w-7 h-7' -%}
+              {%- when 'cake' -%}
+                {%- render 'icon', name: 'cake', class: 'w-7 h-7' -%}
+              {%- else -%}
+                {%- render 'icon', name: 'sparkles', class: 'w-7 h-7' -%}
+            {%- endcase -%}
+          </div>
+
+          <h3 class="font-serif text-lg sm:text-xl font-bold text-chocolate mb-2.5">
+            {{ block.settings.title }}
+          </h3>
+
+          <p class="text-xs sm:text-sm text-chocolate/75 leading-relaxed">
+            {{ block.settings.text }}
+          </p>
+
+        </div>
+      {%- endfor -%}
+    </div>
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Why Choose Us",
+  "settings": [
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Our Artisan Promise"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "The Art of Pure Baking"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description",
+      "default": "We honor slow, traditional French bakery techniques with zero artificial preservatives or shortcuts."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "feature",
+      "name": "Value Proposition",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            { "value": "wheat", "label": "Wheat / Natural Ingredients" },
+            { "value": "sparkles", "label": "Sparkles / Handcrafted" },
+            { "value": "shield-check", "label": "Shield / Clean Standard" },
+            { "value": "truck", "label": "Truck / Fast Delivery" },
+            { "value": "heart", "label": "Heart / Passion" },
+            { "value": "cake", "label": "Cake / Custom Orders" }
+          ],
+          "default": "wheat"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Feature Title",
+          "default": "100% Organic Flours"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Feature Description",
+          "default": "Stone-milled, non-GMO whole grains sourced directly from sustainable family-owned millers."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Why Choose Us Grid",
+      "blocks": [
+        { "type": "feature", "settings": { "icon": "wheat", "title": "Fresh Pure Ingredients", "text": "Stone-milled organic grains, Normandy butter, and farm-fresh cage-free eggs." } },
+        { "type": "feature", "settings": { "icon": "sparkles", "title": "Baked Fresh Every Morning", "text": "Our bakers start at 3:00 AM so your morning croissants and loaves are hot and crispy." } },
+        { "type": "feature", "settings": { "icon": "shield-check", "title": "No Artificial Preservatives", "text": "Pure sourdough fermentation and natural starters for gut-friendly digestibility." } },
+        { "type": "feature", "settings": { "icon": "truck", "title": "Express Bakery Delivery", "text": "Carefully packaged with temperature control to preserve crisp crusts and creamy fillings." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

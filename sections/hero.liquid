@@ -1,0 +1,191 @@
+{%- comment -%}
+  MAISON DÉLICES - LUXURY ARTISAN BAKERY HERO BANNER
+{%- endcomment -%}
+
+<section
+  id="HeroSection-{{ section.id }}"
+  class="relative overflow-hidden bg-chocolate text-cream flex items-center"
+  style="min-height: {{ section.settings.height_desktop }}vh;"
+>
+  <!-- Background Image with Responsive Fallback & Overlay -->
+  <div class="absolute inset-0 z-0">
+    {%- if section.settings.image_desktop != blank -%}
+      <picture>
+        {%- if section.settings.image_mobile != blank -%}
+          <source media="(max-width: 767px)" srcset="{{ section.settings.image_mobile | image_url: width: 800 }}">
+        {%- endif -%}
+        {{ section.settings.image_desktop | image_url: width: 2000 | image_tag:
+          class: 'w-full h-full object-cover object-center scale-105 transition-transform duration-1000 ease-out',
+          alt: section.settings.heading | default: shop.name,
+          loading: 'eager',
+          fetchpriority: 'high'
+        }}
+      </picture>
+    {%- else -%}
+      <!-- Elegant Fallback Image -->
+      <img
+        src="https://picsum.photos/seed/bakery_pastry_artisan/1920/1080"
+        alt="Artisan Freshly Baked Bread and Pastries"
+        class="w-full h-full object-cover object-center"
+        width="1920"
+        height="1080"
+        loading="eager"
+      >
+    {%- endif -%}
+
+    <!-- Dark Warm Gradient Overlay for Impeccable Text Contrast -->
+    <div
+      class="absolute inset-0 bg-gradient-to-r from-chocolate/90 via-chocolate/65 to-transparent"
+      style="opacity: {{ section.settings.overlay_opacity }}%;"
+    ></div>
+  </div>
+
+  <!-- Hero Content Container -->
+  <div class="container relative z-10 py-16 md:py-24">
+    <div class="max-w-2xl text-left">
+      
+      {%- if section.settings.badge_text != blank -%}
+        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-cream/15 backdrop-blur-md border border-cream/25 text-xs uppercase tracking-widest font-semibold text-cream mb-6">
+          {%- render 'icon', name: 'sparkles', class: 'w-3.5 h-3.5 text-accent' -%}
+          <span>{{ section.settings.badge_text }}</span>
+        </div>
+      {%- endif -%}
+
+      <h1 class="font-serif text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight text-white leading-[1.08] mb-6">
+        {{ section.settings.heading }}
+      </h1>
+
+      <p class="text-base sm:text-lg md:text-xl text-cream/85 font-light leading-relaxed mb-8 max-w-xl">
+        {{ section.settings.subheading }}
+      </p>
+
+      <div class="flex flex-wrap items-center gap-4">
+        {%- if section.settings.button_label_1 != blank -%}
+          <a
+            href="{{ section.settings.button_link_1 }}"
+            class="btn btn-accent btn-lg font-bold shadow-lg hover:shadow-xl"
+          >
+            {{ section.settings.button_label_1 }}
+          </a>
+        {%- endif -%}
+
+        {%- if section.settings.button_label_2 != blank -%}
+          <a
+            href="{{ section.settings.button_link_2 }}"
+            class="btn btn-secondary btn-lg bg-cream/10 text-cream border-cream/40 hover:bg-cream hover:text-chocolate font-semibold backdrop-blur-sm"
+          >
+            {{ section.settings.button_label_2 }}
+          </a>
+        {%- endif -%}
+      </div>
+
+      <!-- Trust highlights underneath buttons -->
+      {%- if section.settings.show_trust_bar -%}
+        <div class="grid grid-cols-2 sm:grid-cols-3 gap-4 pt-10 mt-10 border-t border-cream/15 text-xs text-cream/80">
+          <div class="flex items-center gap-2">
+            <span class="text-accent font-bold">✓</span>
+            <span>100% Organic Flours</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="text-accent font-bold">✓</span>
+            <span>Baked Fresh Every Morning</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="text-accent font-bold">✓</span>
+            <span>Same-Day Local Delivery</span>
+          </div>
+        </div>
+      {%- endif -%}
+
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Bakery Hero",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image_desktop",
+      "label": "Desktop Hero Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_mobile",
+      "label": "Mobile Hero Image"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "min": 10,
+      "max": 90,
+      "step": 5,
+      "unit": "%",
+      "label": "Dark Overlay Opacity",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "height_desktop",
+      "min": 50,
+      "max": 100,
+      "step": 5,
+      "unit": "vh",
+      "label": "Desktop Minimum Height",
+      "default": 85
+    },
+    {
+      "type": "text",
+      "id": "badge_text",
+      "label": "Top Badge",
+      "default": "Small-Batch Handcrafted Pâtisserie"
+    },
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Freshly Baked. Made With Love."
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading / Description",
+      "default": "Artisanal sourdoughs, delicate French viennoiserie, and bespoke custom celebration cakes crafted fresh before dawn."
+    },
+    {
+      "type": "text",
+      "id": "button_label_1",
+      "label": "Primary Button Text",
+      "default": "Shop Fresh Treats"
+    },
+    {
+      "type": "url",
+      "id": "button_link_1",
+      "label": "Primary Button Link"
+    },
+    {
+      "type": "text",
+      "id": "button_label_2",
+      "label": "Secondary Button Text",
+      "default": "Explore Custom Cakes"
+    },
+    {
+      "type": "url",
+      "id": "button_link_2",
+      "label": "Secondary Button Link"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_trust_bar",
+      "label": "Show Trust Highlights",
+      "default": true
+    }
+  ],
+  "presets": [
+    {
+      "name": "Bakery Hero Banner"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,154 @@
+{%- comment -%}
+  MAISON DÉLICES - VERIFIED CUSTOMER TESTIMONIALS & EDITORIAL REVIEWS
+{%- endcomment -%}
+
+<section id="Testimonials-{{ section.id }}" class="section-spacing bg-beige/30 border-t border-warm-border">
+  <div class="container">
+    
+    <!-- Section Header -->
+    <div class="text-center max-w-xl mx-auto mb-14">
+      {%- if section.settings.subheading != blank -%}
+        <span class="text-xs uppercase tracking-widest font-bold text-accent block mb-2 font-body">
+          {{ section.settings.subheading }}
+        </span>
+      {%- endif -%}
+
+      <h2 class="font-serif text-3xl sm:text-4xl md:text-5xl font-bold text-chocolate tracking-tight mb-4">
+        {{ section.settings.heading }}
+      </h2>
+
+      {%- if section.settings.description != blank -%}
+        <p class="text-sm md:text-base text-chocolate/75 leading-relaxed">
+          {{ section.settings.description }}
+        </p>
+      {%- endif -%}
+    </div>
+
+    <!-- Testimonials Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+      {%- for block in section.blocks -%}
+        <div class="p-8 rounded-2xl bg-cream border border-warm-border/80 shadow-sm flex flex-col justify-between" {{ block.shopify_attributes }}>
+          <div>
+            <!-- Star Rating Display -->
+            <div class="flex items-center gap-1 text-accent mb-4">
+              {%- for i in (1..5) -%}
+                {%- render 'icon', name: 'star', class: 'w-4 h-4' -%}
+              {%- endfor -%}
+            </div>
+
+            <!-- Review Body -->
+            <blockquote class="font-serif text-lg text-chocolate/90 italic leading-relaxed mb-6">
+              "{{ block.settings.quote }}"
+            </blockquote>
+          </div>
+
+          <!-- Reviewer Info & Item Purchased -->
+          <div class="pt-4 border-t border-warm-border/60 flex items-center justify-between">
+            <div>
+              <span class="block font-bold text-sm text-chocolate font-body">{{ block.settings.author }}</span>
+              <span class="block text-xs text-chocolate/50 font-body">{{ block.settings.location }}</span>
+            </div>
+            {%- if block.settings.tag != blank -%}
+              <span class="px-2.5 py-1 rounded-full bg-beige text-[11px] font-semibold text-accent uppercase tracking-wider">
+                {{ block.settings.tag }}
+              </span>
+            {%- endif -%}
+          </div>
+        </div>
+      {%- endfor -%}
+    </div>
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Testimonials",
+  "settings": [
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Words From Our Community"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Loved by Foodies & Critics"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description",
+      "default": "Discover why pastry connoisseurs and local families trust Maison Délices for their daily bread and celebratory cakes."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "review",
+      "name": "Customer Review",
+      "settings": [
+        {
+          "type": "textarea",
+          "id": "quote",
+          "label": "Review Quote",
+          "default": "The pistachio rose gateau for our wedding was beyond extraordinary. Layers were delicate, not overly sweet, and the presentation took everyone's breath away."
+        },
+        {
+          "type": "text",
+          "id": "author",
+          "label": "Reviewer Name",
+          "default": "Camille & Julien V."
+        },
+        {
+          "type": "text",
+          "id": "location",
+          "label": "City / Verified Customer",
+          "default": "Brooklyn, NY • Verified Buyer"
+        },
+        {
+          "type": "text",
+          "id": "tag",
+          "label": "Ordered Item Tag",
+          "default": "Custom Wedding Cake"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Customer Testimonials Slider/Grid",
+      "blocks": [
+        {
+          "type": "review",
+          "settings": {
+            "quote": "The croissants have that genuine honeycomb crumb and rich Normandy butter aroma that rivals any bakery in Paris.",
+            "author": "Marcus Sterling",
+            "location": "Manhattan • Food Editor",
+            "tag": "Butter Croissants"
+          }
+        },
+        {
+          "type": "review",
+          "settings": {
+            "quote": "Our custom strawberry elderflower birthday cake arrived flawlessly cold, and every single slice was devoured within minutes.",
+            "author": "Elena Rostova",
+            "location": "Williamsburg • Verified Buyer",
+            "tag": "Custom Birthday Cake"
+          }
+        },
+        {
+          "type": "review",
+          "settings": {
+            "quote": "Their 36-hour fermented country sourdough is a staple in our home. Crisp blistered crust and tender, airy crumb.",
+            "author": "David Chen",
+            "location": "Cobble Hill • Weekly Subscriber",
+            "tag": "Artisan Sourdough"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,166 @@
+{%- comment -%}
+  MAISON DÉLICES - FEATURED BAKERY COLLECTION / BEST SELLERS
+{%- endcomment -%}
+
+<section id="FeaturedCollection-{{ section.id }}" class="section-spacing bg-cream">
+  <div class="container">
+    
+    <!-- Section Header with View All Link -->
+    <div class="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-4">
+      <div>
+        {%- if section.settings.subheading != blank -%}
+          <span class="text-xs uppercase tracking-widest font-bold text-accent block mb-2 font-body">
+            {{ section.settings.subheading }}
+          </span>
+        {%- endif -%}
+
+        <h2 class="font-serif text-3xl sm:text-4xl md:text-5xl font-bold text-chocolate tracking-tight">
+          {{ section.settings.heading }}
+        </h2>
+
+        {%- if section.settings.description != blank -%}
+          <p class="text-sm md:text-base text-chocolate/75 mt-2 max-w-xl">
+            {{ section.settings.description }}
+          </p>
+        {%- endif -%}
+      </div>
+
+      {%- if section.settings.show_view_all and section.settings.collection != blank -%}
+        <a
+          href="{{ section.settings.collection.url }}"
+          class="inline-flex items-center gap-1.5 text-sm font-bold text-accent hover:text-accent-hover group font-body"
+        >
+          <span>View All {{ section.settings.collection.title }}</span>
+          <span class="group-hover:translate-x-1 transition-transform">&rarr;</span>
+        </a>
+      {%- endif -%}
+    </div>
+
+    <!-- Product Grid -->
+    {%- assign collection = collections[section.settings.collection] -%}
+    
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-{{ section.settings.columns_desktop }} gap-4 sm:gap-6 lg:gap-8">
+      {%- if collection != blank and collection.products_count > 0 -%}
+        {%- for product in collection.products limit: section.settings.products_to_show -%}
+          <div>
+            {%- render 'product-card',
+              product: product,
+              show_secondary_image: section.settings.show_secondary_image,
+              show_vendor: section.settings.show_vendor,
+              show_rating: section.settings.show_rating,
+              enable_quick_add: section.settings.enable_quick_add
+            -%}
+          </div>
+        {%- endfor -%}
+      {%- else -%}
+        <!-- Onboarding Placeholder Cards (When no collection is chosen yet in theme editor) -->
+        {%- for i in (1..section.settings.products_to_show) -%}
+          <div class="product-card">
+            <div class="product-card__media-wrapper">
+              <img
+                src="https://picsum.photos/seed/bakery_product_{{ i }}/600/600"
+                alt="Artisan Pastry"
+                class="product-card__image"
+                width="600"
+                height="600"
+                loading="lazy"
+              >
+            </div>
+            <div class="product-card__content">
+              <span class="text-xs text-chocolate/50 uppercase font-semibold">Artisan Pâtisserie</span>
+              <h3 class="product-card__title">Signature Vanilla Bean Tart</h3>
+              <div class="price-container">
+                <span class="price-regular">$8.50</span>
+              </div>
+            </div>
+          </div>
+        {%- endfor -%}
+      {%- endif -%}
+    </div>
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Featured Collection",
+  "settings": [
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Customer Favorites"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Our Best Sellers"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description",
+      "default": "Indulge in our most sought-after signature cakes, freshly baked viennoiseries, and seasonal tarts."
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection to Display"
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "min": 2,
+      "max": 12,
+      "step": 1,
+      "default": 4,
+      "label": "Number of Products"
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "min": 2,
+      "max": 4,
+      "step": 1,
+      "default": 4,
+      "label": "Desktop Columns"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_secondary_image",
+      "label": "Show Secondary Image on Hover",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_vendor",
+      "label": "Show Baker/Vendor",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "show_rating",
+      "label": "Show Star Rating",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_quick_add",
+      "label": "Enable 1-Click Quick Add",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_view_all",
+      "label": "Show 'View All' Link",
+      "default": true
+    }
+  ],
+  "presets": [
+    {
+      "name": "Featured Bakery Best Sellers"
+    }
+  ]
+}
+{% endschema %}

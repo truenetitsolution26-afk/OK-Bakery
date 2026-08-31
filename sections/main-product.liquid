@@ -1,0 +1,289 @@
+{%- comment -%}
+  MAISON DÉLICES - MAIN PRODUCT DETAIL SECTION
+{%- endcomment -%}
+
+{%- assign current_variant = product.selected_or_first_available_variant -%}
+
+<section
+  id="MainProduct-{{ section.id }}"
+  class="section-spacing bg-cream"
+  data-product-detail-section
+  data-section="{{ section.id }}"
+>
+  <!-- Breadcrumbs -->
+  <div class="mb-6">
+    {%- render 'breadcrumbs' -%}
+  </div>
+
+  <div class="container">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-start">
+      
+      <!-- Product Media Gallery -->
+      <div class="lg:col-span-7 space-y-4">
+        
+        <!-- Main Featured Image -->
+        <div class="relative overflow-hidden rounded-2xl bg-beige border border-warm-border aspect-square shadow-sm">
+          {%- if product.featured_media != blank -%}
+            {{ product.featured_media | image_url: width: 1200 | image_tag:
+              class: 'w-full h-full object-cover',
+              alt: product.featured_media.alt | default: product.title,
+              data-main-product-image: '',
+              loading: 'eager',
+              fetchpriority: 'high'
+            }}
+          {%- else -%}
+            <img
+              src="https://picsum.photos/seed/bakery_single_cake/1000/1000"
+              alt="{{ product.title }}"
+              class="w-full h-full object-cover"
+              data-main-product-image
+              width="1000"
+              height="1000"
+            >
+          {%- endif -%}
+
+          {%- if product.available == false -%}
+            <span class="badge badge--soldout absolute top-4 left-4 text-xs">{{ 'products.product.sold_out' | t | default: 'Sold Out' }}</span>
+          {%- elsif product.compare_at_price > product.price -%}
+            <span class="badge badge--sale absolute top-4 left-4 text-xs">Special Offer</span>
+          {%- endif -%}
+        </div>
+
+        <!-- Thumbnails Gallery -->
+        {%- if product.media.size > 1 -%}
+          <div class="flex items-center gap-3 overflow-x-auto pb-2 scrollbar-none">
+            {%- for media in product.media -%}
+              <button
+                type="button"
+                class="w-20 h-20 flex-shrink-0 rounded-lg overflow-hidden border border-warm-border bg-beige focus:outline-none transition-all {% if forloop.first %}ring-2 ring-accent{% endif %}"
+                data-thumbnail-trigger
+                data-image-src="{{ media | image_url: width: 1200 }}"
+                aria-label="View {{ media.alt | default: 'image ' | append: forloop.index }}"
+              >
+                {{ media | image_url: width: 160 | image_tag: class: 'w-full h-full object-cover', alt: media.alt | default: product.title, loading: 'lazy' }}
+              </button>
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+
+      </div>
+
+      <!-- Product Form & Details Column -->
+      <div class="lg:col-span-5 space-y-6">
+        
+        <div>
+          {%- if section.settings.show_vendor and product.vendor != blank -%}
+            <span class="text-xs uppercase tracking-widest font-bold text-accent block mb-1.5 font-body">
+              {{ product.vendor }}
+            </span>
+          {%- endif -%}
+
+          <h1 class="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-chocolate tracking-tight mb-3">
+            {{ product.title }}
+          </h1>
+
+          <!-- Reviews summary -->
+          <div class="flex items-center gap-2 mb-4">
+            <div class="flex text-accent">
+              {%- for i in (1..5) -%}
+                {%- render 'icon', name: 'star', class: 'w-4 h-4' -%}
+              {%- endfor -%}
+            </div>
+            <span class="text-xs text-chocolate/70 font-semibold font-body">4.9 / 5.0 (48 Verified Bakery Reviews)</span>
+          </div>
+
+          <!-- Price Display -->
+          <div class="flex items-baseline gap-3 mb-6">
+            <span class="font-serif text-2xl sm:text-3xl font-bold text-chocolate" data-product-price>
+              {{ current_variant.price | money }}
+            </span>
+            <s class="text-lg text-chocolate/50 {% unless current_variant.compare_at_price > current_variant.price %}hidden{% endunless %}" data-compare-price>
+              {{ current_variant.compare_at_price | money }}
+            </s>
+          </div>
+        </div>
+
+        <div class="border-t border-warm-border pt-6">
+          
+          <!-- Shopify Add to Cart Form -->
+          <form action="{{ routes.cart_add_url }}" method="post" enctype="multipart/form-data" class="space-y-6">
+            <input type="hidden" name="id" value="{{ current_variant.id }}">
+
+            <!-- Variant Option Selectors -->
+            {%- unless product.has_only_default_variant -%}
+              <div class="space-y-4">
+                {%- for option in product.options_with_values -%}
+                  <div>
+                    <label class="block text-xs uppercase tracking-wider font-bold text-chocolate mb-2 font-body">
+                      {{ option.name }}: <span class="font-normal text-chocolate/70">{{ option.selected_value }}</span>
+                    </label>
+
+                    <div class="flex flex-wrap gap-2">
+                      {%- for value in option.values -%}
+                        <label class="cursor-pointer">
+                          <input
+                            type="radio"
+                            name="option-{{ option.position }}"
+                            value="{{ value | escape }}"
+                            class="sr-only peer"
+                            data-variant-option
+                            {% if option.selected_value == value %}checked{% endif %}
+                          >
+                          <span class="px-4 py-2 rounded-lg border border-warm-border text-xs font-semibold text-chocolate bg-cream block peer-checked:bg-chocolate peer-checked:text-cream peer-checked:border-chocolate transition-all hover:border-chocolate/60">
+                            {{ value }}
+                          </span>
+                        </label>
+                      {%- endfor -%}
+                    </div>
+                  </div>
+                {%- endfor -%}
+              </div>
+            {%- endunless -%}
+
+            <!-- Quantity & Add to Cart -->
+            <div class="space-y-3">
+              <label class="block text-xs uppercase tracking-wider font-bold text-chocolate font-body">
+                Quantity
+              </label>
+
+              <div class="flex items-center gap-4">
+                {%- render 'quantity-selector', min: 1, value: 1 -%}
+
+                <button
+                  type="submit"
+                  name="add"
+                  class="btn btn-primary btn-lg flex-grow shadow-lg"
+                  data-add-to-cart-btn
+                  {% unless current_variant.available %}disabled{% endunless %}
+                >
+                  {%- if current_variant.available -%}
+                    {%- render 'icon', name: 'cart', class: 'w-5 h-5 mr-1' -%}
+                    <span>{{ 'products.product.add_to_cart' | t | default: 'Add to Bag' }}</span>
+                  {%- else -%}
+                    <span>{{ 'products.product.sold_out' | t | default: 'Sold Out' }}</span>
+                  {%- endif -%}
+                </button>
+              </div>
+
+              {%- if section.settings.show_dynamic_checkout -%}
+                {{ form | payment_button }}
+              {%- endif -%}
+            </div>
+          </form>
+
+        </div>
+
+        <!-- Bakery Accordions (Description, Ingredients, Allergens, Delivery) -->
+        <div class="border-t border-warm-border pt-4 divide-y divide-warm-border text-sm">
+          
+          <!-- Description Accordion -->
+          <div class="py-4">
+            <button
+              type="button"
+              class="w-full flex items-center justify-between font-serif text-lg font-bold text-chocolate focus:outline-none"
+              data-accordion-trigger
+              aria-expanded="true"
+            >
+              <span>Pastry Description</span>
+              {%- render 'icon', name: 'chevron-down', class: 'w-4 h-4 text-chocolate/70 transition-transform duration-200' -%}
+            </button>
+            <div class="mt-3 text-chocolate/80 leading-relaxed font-body">
+              {{ product.description | default: 'Crafted with premium European butter, unbleached organic flour, and small-batch house-made fruit preserves.' }}
+            </div>
+          </div>
+
+          <!-- Ingredients Accordion -->
+          <div class="py-4">
+            <button
+              type="button"
+              class="w-full flex items-center justify-between font-serif text-lg font-bold text-chocolate focus:outline-none"
+              data-accordion-trigger
+              aria-expanded="false"
+            >
+              <span>Ingredients & Sourcing</span>
+              {%- render 'icon', name: 'chevron-down', class: 'w-4 h-4 text-chocolate/70 transition-transform duration-200' -%}
+            </button>
+            <div class="mt-3 text-chocolate/80 leading-relaxed font-body hidden">
+              <p>Stone-ground organic wheat flour, 84% butterfat Normandy butter, pure Madagascar Bourbon vanilla bean caviar, whole organic milk, cage-free eggs, sea salt from Guérande, cane sugar.</p>
+            </div>
+          </div>
+
+          <!-- Allergens & Dietary Accordion -->
+          <div class="py-4">
+            <button
+              type="button"
+              class="w-full flex items-center justify-between font-serif text-lg font-bold text-chocolate focus:outline-none"
+              data-accordion-trigger
+              aria-expanded="false"
+            >
+              <span>Allergen Notice</span>
+              {%- render 'icon', name: 'chevron-down', class: 'w-4 h-4 text-chocolate/70 transition-transform duration-200' -%}
+            </button>
+            <div class="mt-3 text-chocolate/80 leading-relaxed font-body hidden">
+              <p>Contains: <strong>Wheat, Dairy (Milk, Butter), Eggs</strong>. Prepared in an artisan bakery that processes tree nuts (almonds, pistachios, hazelnuts).</p>
+            </div>
+          </div>
+
+          <!-- Freshness & Storage Info -->
+          <div class="py-4">
+            <button
+              type="button"
+              class="w-full flex items-center justify-between font-serif text-lg font-bold text-chocolate focus:outline-none"
+              data-accordion-trigger
+              aria-expanded="false"
+            >
+              <span>Freshness & Storage</span>
+              {%- render 'icon', name: 'chevron-down', class: 'w-4 h-4 text-chocolate/70 transition-transform duration-200' -%}
+            </button>
+            <div class="mt-3 text-chocolate/80 leading-relaxed font-body hidden">
+              <p>Best enjoyed day of purchase. For cream-filled cakes, refrigerate immediately and serve at room temperature for 15 minutes before slicing. Breads can be stored in a paper bag for up to 3 days or frozen.</p>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Mobile Sticky Add to Cart Bar -->
+  <div id="StickyAddToCart" class="sticky-atc">
+    <div>
+      <h4 class="font-serif text-sm font-bold text-chocolate leading-tight truncate max-w-[160px]">{{ product.title }}</h4>
+      <span class="text-xs font-bold text-accent" data-sticky-price>{{ current_variant.price | money }}</span>
+    </div>
+    <form action="{{ routes.cart_add_url }}" method="post" class="flex-shrink-0">
+      <input type="hidden" name="id" value="{{ current_variant.id }}">
+      <input type="hidden" name="quantity" value="1">
+      <button type="submit" class="btn btn-primary btn-sm" data-sticky-btn {% unless current_variant.available %}disabled{% endunless %}>
+        Add to Bag
+      </button>
+    </form>
+  </div>
+
+  <!-- Product JSON for Variant JS Engine -->
+  <script type="application/json" data-product-json>
+    {{ product | json }}
+  </script>
+</section>
+
+{% schema %}
+{
+  "name": "Main Product Detail",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_vendor",
+      "label": "Show Baker/Vendor",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "show_dynamic_checkout",
+      "label": "Show Dynamic Checkout Buttons",
+      "default": true
+    }
+  ]
+}
+{% endschema %}

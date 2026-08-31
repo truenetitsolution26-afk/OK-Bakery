@@ -1,0 +1,139 @@
+{%- comment -%}
+  MAISON DÉLICES - CUSTOM CAKE BUILDER & BESPOKE INQUIRY
+{%- endcomment -%}
+
+<section id="CustomCake-{{ section.id }}" class="section-spacing bg-beige/50 border-y border-warm-border">
+  <div class="container">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
+      
+      <!-- Custom Cake Visual Showcase -->
+      <div class="lg:col-span-6 relative">
+        <div class="relative rounded-2xl overflow-hidden shadow-xl border border-warm-border bg-cream aspect-[4/5] sm:aspect-square lg:aspect-[4/5]">
+          {%- if section.settings.image != blank -%}
+            {{ section.settings.image | image_url: width: 900 | image_tag: class: 'w-full h-full object-cover', loading: 'lazy' }}
+          {%- else -%}
+            <img src="https://picsum.photos/seed/bespoke_wedding_cake/900/1100" alt="Custom tiered artisanal cake" class="w-full h-full object-cover" width="900" height="1100" loading="lazy">
+          {%- endif -%}
+          
+          <div class="absolute bottom-4 left-4 right-4 bg-cream/90 backdrop-blur-md p-4 rounded-xl border border-warm-border shadow-lg">
+            <span class="text-xs uppercase tracking-wider font-bold text-accent">Bespoke Pâtisserie</span>
+            <p class="font-serif text-lg font-bold text-chocolate mt-0.5 leading-snug">Tiered Wedding, Birthday & Event Masterpieces</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Content & Features List -->
+      <div class="lg:col-span-6">
+        <span class="text-xs uppercase tracking-widest font-bold text-accent block mb-2 font-body">
+          {{ section.settings.subheading }}
+        </span>
+
+        <h2 class="font-serif text-3xl sm:text-4xl md:text-5xl font-bold text-chocolate tracking-tight mb-6 leading-tight">
+          {{ section.settings.heading }}
+        </h2>
+
+        <p class="text-base text-chocolate/80 leading-relaxed mb-8">
+          {{ section.settings.description }}
+        </p>
+
+        <!-- Feature Points -->
+        <div class="space-y-4 mb-8">
+          <div class="flex items-start gap-3.5">
+            <div class="w-7 h-7 rounded-full bg-accent/15 text-accent flex items-center justify-center flex-shrink-0 mt-0.5">
+              {%- render 'icon', name: 'cake', class: 'w-4 h-4' -%}
+            </div>
+            <div>
+              <h4 class="font-semibold text-chocolate text-base">Custom Flavor Pairings</h4>
+              <p class="text-xs sm:text-sm text-chocolate/70 mt-0.5">Valrhona dark chocolate, Madagascar bourbon vanilla, pistachio praline, and fresh berry compotes.</p>
+            </div>
+          </div>
+
+          <div class="flex items-start gap-3.5">
+            <div class="w-7 h-7 rounded-full bg-accent/15 text-accent flex items-center justify-center flex-shrink-0 mt-0.5">
+              {%- render 'icon', name: 'sparkles', class: 'w-4 h-4' -%}
+            </div>
+            <div>
+              <h4 class="font-semibold text-chocolate text-base">Hand-Sculpted Botanical Decor</h4>
+              <p class="text-xs sm:text-sm text-chocolate/70 mt-0.5">Fresh organic edible flowers, macaron garnishes, gold leaf, and custom buttercream textures.</p>
+            </div>
+          </div>
+
+          <div class="flex items-start gap-3.5">
+            <div class="w-7 h-7 rounded-full bg-accent/15 text-accent flex items-center justify-center flex-shrink-0 mt-0.5">
+              {%- render 'icon', name: 'truck', class: 'w-4 h-4' -%}
+            </div>
+            <div>
+              <h4 class="font-semibold text-chocolate text-base">White-Glove Temperature Controlled Delivery</h4>
+              <p class="text-xs sm:text-sm text-chocolate/70 mt-0.5">Safe delivery directly to your reception hall, private venue, or home with on-site setup.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-4">
+          {%- if section.settings.button_label != blank -%}
+            <a href="{{ section.settings.button_link }}" class="btn btn-primary btn-lg">
+              {{ section.settings.button_label }}
+            </a>
+          {%- endif -%}
+          <a href="{{ section.settings.secondary_link | default: routes.root_url | append: 'pages/contact' }}" class="btn btn-secondary btn-lg">
+            Consult With Head Pastry Chef
+          </a>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Custom Cake Builder",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Custom Cake Image"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Bespoke Cake Studio"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Create Your Dream Celebration Cake"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description",
+      "default": "From intimate anniversary dinners to grand multi-tiered wedding ceremonies, our pastry artists bring your sweetest vision to life."
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Primary CTA Label",
+      "default": "Order Custom Cake"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Primary CTA Link"
+    },
+    {
+      "type": "url",
+      "id": "secondary_link",
+      "label": "Chef Consultation Link"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Custom Cake Studio"
+    }
+  ]
+}
+{% endschema %}

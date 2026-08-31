@@ -1,0 +1,77 @@
+{%- comment -%}
+  MAISON DÉLICES - DYNAMIC PRODUCT RECOMMENDATIONS / COMPLEMENTARY TREATS
+{%- endcomment -%}
+
+<section
+  id="ProductRecommendations-{{ section.id }}"
+  class="section-spacing bg-beige/40 border-t border-warm-border"
+  data-url="{{ routes.product_recommendations_url }}?section_id={{ section.id }}&product_id={{ product.id }}&limit=4"
+>
+  <div class="container">
+    
+    <div class="text-center max-w-xl mx-auto mb-10">
+      <span class="text-xs uppercase tracking-widest font-bold text-accent block mb-2 font-body">
+        Handcrafted Pairings
+      </span>
+      <h2 class="font-serif text-3xl sm:text-4xl font-bold text-chocolate tracking-tight">
+        You May Also Savor
+      </h2>
+      <p class="text-sm text-chocolate/75 mt-2">
+        Pair your selection with our artisan breads, companion cookies, and seasonal tartlets.
+      </p>
+    </div>
+
+    <!-- Recommendations Grid -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
+      {%- if recommendations.performed and recommendations.products_count > 0 -%}
+        {%- for recommendation in recommendations.products -%}
+          <div>
+            {%- render 'product-card', product: recommendation, show_rating: true, enable_quick_add: true -%}
+          </div>
+        {%- endfor -%}
+      {%- else -%}
+        <!-- Fallback Related Products Grid -->
+        {%- for i in (1..4) -%}
+          <div class="product-card group">
+            <div class="product-card__media-wrapper square">
+              <img
+                src="https://picsum.photos/seed/bakery_rec_{{ i }}/600/600"
+                alt="Complementary Artisan Treat"
+                class="product-card__image"
+                width="600"
+                height="600"
+                loading="lazy"
+              >
+            </div>
+            <div class="product-card__content">
+              <h3 class="product-card__title">Parisian Butter Croissant (Box of 4)</h3>
+              <div class="flex items-center gap-1 text-accent text-xs mb-2">
+                {%- for star in (1..5) -%}
+                  {%- render 'icon', name: 'star', class: 'w-3 h-3' -%}
+                {%- endfor -%}
+              </div>
+              <div class="price-container">
+                <span class="price-regular font-bold text-chocolate">$16.00</span>
+              </div>
+            </div>
+          </div>
+        {%- endfor -%}
+      {%- endif -%}
+    </div>
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Product Recommendations",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "You May Also Savor"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,25 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "settings": {
+        "show_vendor": false,
+        "show_rating": true,
+        "show_quantity": true,
+        "enable_sticky_cart": true
+      }
+    },
+    "recommendations": {
+      "type": "product-recommendations",
+      "settings": {
+        "subheading": "Complete Your Bakery Table",
+        "heading": "You May Also Crave",
+        "products_to_show": 4
+      }
+    }
+  },
+  "order": [
+    "main",
+    "recommendations"
+  ]
+}

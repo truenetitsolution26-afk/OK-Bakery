@@ -1,0 +1,38 @@
+{
+  "general": {
+    "share": "Share",
+    "search": "Search treats, breads, and cakes...",
+    "continue_shopping": "Continue shopping",
+    "cart": "Bakery Bag",
+    "checkout": "Proceed to Checkout"
+  },
+  "accessibility": {
+    "skip_to_text": "Skip to content",
+    "close": "Close",
+    "menu": "Menu",
+    "filter_close": "Close filters"
+  },
+  "cart": {
+    "general": {
+      "title": "Your Bakery Bag",
+      "empty": "Your bakery bag is currently empty.",
+      "subtotal": "Subtotal",
+      "note": "Custom Inscription / Delivery Instructions",
+      "shipping_at_checkout": "Taxes & delivery calculated at checkout."
+    },
+    "shipping": {
+      "free_shipping_unlocked": "🎉 Complimentary bakery delivery unlocked!",
+      "free_shipping_progress_html": "Add {{ amount }} more for complimentary bakery delivery"
+    }
+  },
+  "products": {
+    "product": {
+      "add_to_cart": "Add to Bag",
+      "sold_out": "Sold Out For Today",
+      "quantity": "Quantity",
+      "regular_price": "Regular price",
+      "sale_price": "Special price",
+      "on_sale": "Special Bake"
+    }
+  }
+}

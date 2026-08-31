@@ -1,0 +1,104 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "Maison Délices - Artisan Bakery",
+    "theme_version": "1.0.0",
+    "theme_author": "Maison Délices Studio",
+    "theme_documentation_url": "https://help.shopify.com",
+    "theme_support_url": "https://help.shopify.com"
+  },
+  {
+    "name": "Brand Colors & Atmosphere",
+    "settings": [
+      {
+        "type": "color",
+        "id": "color_chocolate",
+        "label": "Primary Chocolate",
+        "default": "#2C1A11"
+      },
+      {
+        "type": "color",
+        "id": "color_cream",
+        "label": "Canvas Cream",
+        "default": "#FAF7F2"
+      },
+      {
+        "type": "color",
+        "id": "color_beige",
+        "label": "Warm Almond Beige",
+        "default": "#F3EDE2"
+      },
+      {
+        "type": "color",
+        "id": "color_caramel",
+        "label": "Crust Caramel Accent",
+        "default": "#C68B59"
+      },
+      {
+        "type": "color",
+        "id": "color_berry",
+        "label": "Terracotta / Sale Red",
+        "default": "#A44230"
+      }
+    ]
+  },
+  {
+    "name": "Bakery Logistics & Thresholds",
+    "settings": [
+      {
+        "type": "number",
+        "id": "free_shipping_threshold",
+        "label": "Free Delivery Threshold (in cents)",
+        "default": 5000,
+        "info": "5000 = $50.00 threshold to unlock complimentary delivery."
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_cart_notes",
+        "label": "Enable Custom Cake Inscription & Delivery Notes",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "store_phone",
+        "label": "Bakery Phone",
+        "default": "+1 (718) 555-0192"
+      },
+      {
+        "type": "text",
+        "id": "store_email",
+        "label": "Bakery Email",
+        "default": "bonjour@maison-delices.com"
+      },
+      {
+        "type": "textarea",
+        "id": "store_address",
+        "label": "Boulangerie Physical Address",
+        "default": "142 Bedford Avenue, Brooklyn, NY 11249"
+      }
+    ]
+  },
+  {
+    "name": "Social Profiles",
+    "settings": [
+      {
+        "type": "text",
+        "id": "social_instagram",
+        "label": "Instagram URL",
+        "default": "https://instagram.com"
+      },
+      {
+        "type": "text",
+        "id": "social_facebook",
+        "label": "Facebook URL",
+        "default": "https://facebook.com"
+      },
+      {
+        "type": "text",
+        "id": "social_pinterest",
+        "label": "Pinterest URL",
+        "default": "https://pinterest.com"
+      }
+    ]
+  }
+]

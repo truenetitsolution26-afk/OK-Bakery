@@ -1,0 +1,54 @@
+{%- comment -%}
+  MAISON DÉLICES - ACCESSIBLE PAGINATION SNIPPET
+  Accepts:
+  - paginate: {Object} Shopify Paginate Object
+{%- endcomment -%}
+
+{%- if paginate.parts.size > 0 -%}
+  <nav class="pagination-wrapper flex justify-center items-center gap-2 py-10" role="navigation" aria-label="Pagination Navigation">
+    {%- if paginate.previous -%}
+      <a
+        href="{{ paginate.previous.url }}"
+        class="px-4 py-2 rounded-lg border border-warm-border text-sm font-semibold text-chocolate hover:bg-beige transition-colors"
+        aria-label="Previous page"
+      >
+        &larr; Previous
+      </a>
+    {%- endif -%}
+
+    {%- for part in paginate.parts -%}
+      {%- if part.is_link -%}
+        <a
+          href="{{ part.url }}"
+          class="w-10 h-10 flex items-center justify-center rounded-lg border border-warm-border text-sm font-semibold text-chocolate hover:bg-beige transition-colors"
+          aria-label="Page {{ part.title }}"
+        >
+          {{ part.title }}
+        </a>
+      {%- else -%}
+        {%- if part.title == paginate.current_page -%}
+          <span
+            class="w-10 h-10 flex items-center justify-center rounded-lg bg-chocolate text-cream font-bold text-sm"
+            aria-current="page"
+          >
+            {{ part.title }}
+          </span>
+        {%- else -%}
+          <span class="w-10 h-10 flex items-center justify-center text-chocolate/40 text-sm">
+            {{ part.title }}
+          </span>
+        {%- endif -%}
+      {%- endif -%}
+    {%- endfor -%}
+
+    {%- if paginate.next -%}
+      <a
+        href="{{ paginate.next.url }}"
+        class="px-4 py-2 rounded-lg border border-warm-border text-sm font-semibold text-chocolate hover:bg-beige transition-colors"
+        aria-label="Next page"
+      >
+        Next &rarr;
+      </a>
+    {%- endif -%}
+  </nav>
+{%- endif -%}

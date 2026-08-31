@@ -1,0 +1,50 @@
+{%- comment -%}
+  MAISON DÉLICES - BREADCRUMBS NAVIGATION & SCHEMA
+{%- endcomment -%}
+
+{%- unless template == 'index' or template == 'cart' or template == '404' -%}
+  <nav class="breadcrumbs py-3 text-xs text-chocolate/60 font-body" aria-label="Breadcrumb">
+    <ol class="container flex flex-wrap items-center gap-1.5 list-none p-0">
+      <li>
+        <a href="{{ routes.root_url }}" class="hover:text-accent transition-colors">Home</a>
+      </li>
+      <li aria-hidden="true" class="text-chocolate/30">/</li>
+
+      {%- if template contains 'page' -%}
+        <li>
+          <span class="text-chocolate font-semibold" aria-current="page">{{ page.title }}</span>
+        </li>
+      {%- elsif template contains 'product' -%}
+        {%- if collection.url -%}
+          <li>
+            <a href="{{ collection.url }}" class="hover:text-accent transition-colors">{{ collection.title }}</a>
+          </li>
+          <li aria-hidden="true" class="text-chocolate/30">/</li>
+        {%- endif -%}
+        <li>
+          <span class="text-chocolate font-semibold truncate max-w-xs inline-block align-bottom" aria-current="page">{{ product.title }}</span>
+        </li>
+      {%- elsif template contains 'collection' and collection.handle -%}
+        <li>
+          <span class="text-chocolate font-semibold" aria-current="page">{{ collection.title }}</span>
+        </li>
+      {%- elsif template == 'blog' -%}
+        <li>
+          <span class="text-chocolate font-semibold" aria-current="page">{{ blog.title }}</span>
+        </li>
+      {%- elsif template == 'article' -%}
+        <li>
+          <a href="{{ blog.url }}" class="hover:text-accent transition-colors">{{ blog.title }}</a>
+        </li>
+        <li aria-hidden="true" class="text-chocolate/30">/</li>
+        <li>
+          <span class="text-chocolate font-semibold truncate max-w-xs inline-block align-bottom" aria-current="page">{{ article.title }}</span>
+        </li>
+      {%- else -%}
+        <li>
+          <span class="text-chocolate font-semibold" aria-current="page">{{ page_title }}</span>
+        </li>
+      {%- endif -%}
+    </ol>
+  </nav>
+{%- endunless -%}

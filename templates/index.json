@@ -1,0 +1,74 @@
+{
+  "sections": {
+    "announcement-bar": {
+      "type": "announcement-bar",
+      "settings": {
+        "text": "🥐 Fresh morning bakes out of the oven at 7:00 AM • Complimentary local delivery on orders over $50",
+        "link": "/collections/all"
+      }
+    },
+    "hero": {
+      "type": "hero",
+      "settings": {
+        "subheading": "Artisan Boulangerie & Pâtisserie",
+        "heading": "Slow-Fermented Sourdough & French Pâtisserie",
+        "text": "Baked before dawn using wild levain, stoneground organic grains, and Normandy butter. Delivered fresh daily to your doorstep.",
+        "button_1_text": "Order Fresh Treats",
+        "button_1_link": "/collections/all",
+        "button_2_text": "Custom Cake Studio",
+        "button_2_link": "#custom-cake"
+      }
+    },
+    "category-grid": {
+      "type": "category-grid",
+      "settings": {
+        "subheading": "Artisan Specialties",
+        "heading": "Explore the Bakery Counter"
+      }
+    },
+    "featured-collection": {
+      "type": "featured-collection",
+      "settings": {
+        "subheading": "Fresh Out Of The Oven",
+        "heading": "Daily Best Sellers",
+        "description": "Our most cherished morning staples and afternoon confections, crafted with heritage grains and slow fermentation.",
+        "products_to_show": 6,
+        "show_view_all": true
+      }
+    },
+    "custom-cake": {
+      "type": "custom-cake",
+      "settings": {
+        "subheading": "Haute Pâtisserie",
+        "heading": "Bespoke Celebration & Wedding Cakes",
+        "description": "From sculpted botanical buttercream tiers to minimalist contemporary ganaches, our pastry chefs handcraft statement centerpieces tailored to your celebration palette.",
+        "lead_time": "Notice Required: 48–72 hours",
+        "cta_text": "Request Cake Consultation",
+        "cta_link": "/pages/contact"
+      }
+    },
+    "why-choose-us": {
+      "type": "why-choose-us",
+      "settings": {
+        "subheading": "The French Standard",
+        "heading": "Pure Craftsmanship In Every Crumb"
+      }
+    },
+    "testimonials": {
+      "type": "testimonials",
+      "settings": {
+        "subheading": "Kind Words",
+        "heading": "Loved By Neighborhood Foodies"
+      }
+    }
+  },
+  "order": [
+    "announcement-bar",
+    "hero",
+    "category-grid",
+    "featured-collection",
+    "custom-cake",
+    "why-choose-us",
+    "testimonials"
+  ]
+}

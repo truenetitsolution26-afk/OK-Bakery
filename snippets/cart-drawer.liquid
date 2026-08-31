@@ -1,0 +1,150 @@
+{%- comment -%}
+  MAISON DÉLICES - SLIDE-OUT AJAX CART DRAWER WITH SHIPPING THRESHOLD
+{%- endcomment -%}
+
+<div id="CartDrawerOverlay" class="cart-drawer-overlay" aria-hidden="true"></div>
+
+<div
+  id="CartDrawer"
+  class="cart-drawer"
+  role="dialog"
+  aria-modal="true"
+  aria-label="{{ 'cart.general.title' | t | default: 'Your Bakery Bag' }}"
+>
+  <!-- Drawer Header -->
+  <div class="cart-drawer__header">
+    <div class="flex items-center gap-2">
+      {%- render 'icon', name: 'cart', class: 'w-5 h-5 text-accent' -%}
+      <h3 class="font-serif text-xl font-bold text-chocolate">
+        {{ 'cart.general.title' | t | default: 'Your Bakery Bag' }}
+      </h3>
+      <span class="text-xs text-chocolate/50 font-bold ml-1 font-mono" data-cart-count>
+        ({{ cart.item_count }})
+      </span>
+    </div>
+    
+    <button
+      type="button"
+      class="p-1.5 text-chocolate/70 hover:text-chocolate rounded-full hover:bg-beige transition-colors"
+      data-close-cart-drawer
+      aria-label="{{ 'accessibility.close' | t | default: 'Close bag' }}"
+    >
+      {%- render 'icon', name: 'close', class: 'w-5 h-5' -%}
+    </button>
+  </div>
+
+  <!-- Drawer Body -->
+  <div class="cart-drawer__body">
+    
+    <!-- Free Delivery Progress Bar -->
+    <div class="shipping-bar">
+      <div class="flex items-center justify-between text-xs font-semibold text-chocolate">
+        <span id="ShippingProgressText">
+          {%- assign threshold = settings.free_shipping_threshold | default: 5000 -%}
+          {%- if cart.total_price >= threshold -%}
+            {{ 'cart.shipping.free_shipping_unlocked' | t | default: '🎉 Complimentary bakery delivery unlocked!' }}
+          {%- else -%}
+            {%- assign diff = threshold | minus: cart.total_price | money -%}
+            {{ 'cart.shipping.free_shipping_progress_html' | t: amount: diff | default: 'Add ' | append: diff | append: ' more for free delivery' }}
+          {%- endif -%}
+        </span>
+      </div>
+      <div class="shipping-bar__progress-track">
+        {%- assign percent = cart.total_price | times: 100.0 | divided_by: threshold | at_most: 100 -%}
+        <div id="ShippingProgressFill" class="shipping-bar__progress-fill" style="width: {{ percent }}%;"></div>
+      </div>
+    </div>
+
+    <!-- Dynamic Cart Items Container -->
+    <div id="CartDrawerItems">
+      {%- if cart.item_count == 0 -%}
+        <div class="py-16 text-center">
+          <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-beige flex items-center justify-center text-chocolate/40">
+            {%- render 'icon', name: 'cart', class: 'w-8 h-8' -%}
+          </div>
+          <p class="font-serif text-2xl text-chocolate mb-2">Your bakery bag is empty</p>
+          <p class="text-sm text-chocolate/70 mb-6">Discover our freshly baked sourdoughs, cakes, and treats.</p>
+          <a href="{{ routes.root_url }}collections/all" class="btn btn-primary btn-sm" data-close-cart-drawer>Explore Bakery Menu</a>
+        </div>
+      {%- else -%}
+        {%- for item in cart.items -%}
+          <div class="flex items-center gap-4 py-4 border-b border-warm-border/60">
+            {%- if item.image != blank -%}
+              {{ item.image | image_url: width: 150 | image_tag: class: 'w-18 h-18 object-cover rounded-md bg-beige', alt: item.title, loading: 'lazy' }}
+            {%- endif -%}
+            <div class="flex-grow">
+              <h4 class="font-serif text-base text-chocolate leading-snug font-semibold">
+                <a href="{{ item.url }}">{{ item.product.title }}</a>
+              </h4>
+              {%- unless item.product.has_only_default_variant -%}
+                <p class="text-xs text-chocolate/60 mt-0.5">{{ item.variant.title }}</p>
+              {%- endunless -%}
+              <div class="text-sm font-semibold text-chocolate mt-1">{{ item.final_line_price | money }}</div>
+              
+              <div class="flex items-center justify-between mt-2">
+                <div class="quantity-selector" style="transform: scale(0.85); transform-origin: left center;">
+                  <button type="button" class="quantity-selector__btn" data-cart-qty-change="-1" data-line-key="{{ item.key }}" data-current-qty="{{ item.quantity }}">-</button>
+                  <span class="px-3 font-semibold text-xs text-chocolate">{{ item.quantity }}</span>
+                  <button type="button" class="quantity-selector__btn" data-cart-qty-change="1" data-line-key="{{ item.key }}" data-current-qty="{{ item.quantity }}">+</button>
+                </div>
+                <button type="button" class="text-xs text-chocolate/50 hover:text-sale underline transition-colors" data-cart-remove="{{ item.key }}">Remove</button>
+              </div>
+            </div>
+          </div>
+        {%- endfor -%}
+      {%- endif -%}
+    </div>
+
+  </div>
+
+  <!-- Drawer Footer (Subtotal, Order Notes, Checkout Trigger) -->
+  <div class="cart-drawer__footer">
+    
+    {%- if settings.enable_cart_notes -%}
+      <details class="mb-3 group">
+        <summary class="text-xs font-bold uppercase tracking-wider text-chocolate/70 hover:text-chocolate cursor-pointer list-none flex items-center justify-between">
+          <span>Add Custom Cake / Delivery Note</span>
+          <span class="group-open:rotate-180 transition-transform">▼</span>
+        </summary>
+        <div class="mt-2">
+          <textarea
+            name="note"
+            class="w-full text-xs bg-cream border border-warm-border rounded-md p-2 text-chocolate placeholder-chocolate/40 focus:outline-none focus:border-accent"
+            rows="2"
+            placeholder="Special lettering on cake or delivery instructions..."
+          >{{ cart.note }}</textarea>
+        </div>
+      </details>
+    {%- endif -%}
+
+    <div class="flex items-center justify-between text-base font-bold text-chocolate mb-1">
+      <span>Subtotal</span>
+      <span id="CartDrawerSubtotal" class="font-serif text-xl">{{ cart.total_price | money }}</span>
+    </div>
+
+    <p class="text-[11px] text-chocolate/60 mb-4">
+      Taxes and local delivery calculated during secure checkout.
+    </p>
+
+    <div class="space-y-2">
+      <form action="{{ routes.cart_url }}" method="post">
+        <button
+          type="submit"
+          name="checkout"
+          class="btn btn-primary btn-full btn-lg font-bold shadow-md"
+          {% if cart.item_count == 0 %}disabled{% endif %}
+        >
+          Secure Bakery Checkout &rarr;
+        </button>
+      </form>
+      
+      <a
+        href="{{ routes.cart_url }}"
+        class="block text-center text-xs font-semibold text-chocolate/70 hover:text-chocolate underline py-1"
+      >
+        View Full Bag Details
+      </a>
+    </div>
+
+  </div>
+</div>

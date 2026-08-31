@@ -1,0 +1,6 @@
+{
+  "name": "Artisan Bakery Shopify Theme",
+  "description": "Production-ready Shopify Online Store 2.0 theme for artisanal bakeries, pastry boutiques, and custom cake shops.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

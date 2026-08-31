@@ -1,0 +1,94 @@
+{%- if section.settings.show_announcement -%}
+  <div class="announcement-bar relative z-30 transition-colors duration-300 border-b border-chocolate/10" style="background-color: {{ section.settings.bg_color }}; color: {{ section.settings.text_color }};">
+    <div class="container py-2 flex items-center justify-between text-xs font-medium tracking-wide">
+      
+      {%- if section.settings.enable_location -%}
+        <div class="hidden md:flex items-center gap-1.5 opacity-90">
+          {%- render 'icon', name: 'clock', class: 'w-3.5 h-3.5' -%}
+          <span>{{ section.settings.location_text | default: 'Baking Fresh Daily 7am – 6pm' }}</span>
+        </div>
+      {%- else -%}
+        <div class="hidden md:block w-32"></div>
+      {%- endif -%}
+
+      <div class="flex-grow text-center">
+        {%- if section.settings.link != blank -%}
+          <a href="{{ section.settings.link }}" class="inline-flex items-center gap-1.5 hover:underline transition-all">
+            <span>{{ section.settings.text }}</span>
+            <span aria-hidden="true">&rarr;</span>
+          </a>
+        {%- else -%}
+          <span>{{ section.settings.text }}</span>
+        {%- endif -%}
+      </div>
+
+      {%- if section.settings.show_social -%}
+        <div class="hidden md:flex items-center gap-3">
+          {%- if settings.social_instagram != blank -%}
+            <a href="{{ settings.social_instagram }}" target="_blank" rel="noopener" class="opacity-80 hover:opacity-100 transition-opacity" aria-label="Instagram">
+              <span class="text-[11px] uppercase tracking-wider font-semibold">Instagram</span>
+            </a>
+          {%- endif -%}
+        </div>
+      {%- else -%}
+        <div class="hidden md:block w-32"></div>
+      {%- endif -%}
+
+    </div>
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Announcement Bar",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_announcement",
+      "label": "Enable Announcement Bar",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "text",
+      "label": "Announcement Text",
+      "default": "Freshly baked artisan sourdough & custom cakes • Complimentary delivery on orders over $50"
+    },
+    {
+      "type": "url",
+      "id": "link",
+      "label": "Announcement Link"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_location",
+      "label": "Show Bakery Opening Times",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "location_text",
+      "label": "Bakery Times Text",
+      "default": "Fresh Batches Ready at 7:00 AM"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_social",
+      "label": "Show Social Quick Links",
+      "default": true
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#2C1A11"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#FAF7F2"
+    }
+  ]
+}
+{% endschema %}
